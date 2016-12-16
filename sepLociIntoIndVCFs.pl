@@ -24,7 +24,7 @@ while (my $locus = <$locusFH>) {
 
     
     # This GATK command pulls out the variants that match "locus"
-    system("java -Xmx3g -jar /home/evan/bin/GATK/GenomeAnalysisTK.jar -R ../../reference/all.RBBH.fasta -T SelectVariants -V /mnt/Data1/CTScombined/haplotyping/HSEM031-040.bqsr.snps.q30.passOnly.minGQ20MaxMiss50p.nuke3sparse.beaglePhased.rename.vcf -L \'$locus\' -o $locusVCF");
+    system("java -Xmx3g -jar /home/evan/bin/GATK/GenomeAnalysisTK.jar -R ../../reference/all.RBBH.fasta -T SelectVariants -V ../HSEM031-040.bqsr.snps.q30.passOnly.minGQ20MaxMiss50p.recode.vcf -L \'$locus\' -o $locusVCF");
 
     $fm->finish;
 }

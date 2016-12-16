@@ -11,11 +11,15 @@ genofile <- snpgdsOpen(args[1])
 pcaz <- snpgdsPCA(genofile, autosome.only=F)
 
 metazRed <- metaz[!is.na(match(metaz$Individual, pcaz$sample.id)),]
-ibs.hc <- snpgdsHCluster(snpgdsIBS(genofile, sample.id=pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)]))
+missingRate <- snpgdsSampMissRate(genofile)
+
+
+ibs.hc <- snpgdsHCluster(snpgdsIBS(genofile, sample.id=pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)][missingRate < 0.5]))
+
 
 # Color dots by GVGSP, 5*FF, or other
-ibs.hc.cut <- snpgdsCutTree(ibs.hc, samp.group=as.factor(metaz$Color[match(pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)], metaz$Individual)]))
-race <- as.factor(metaz$Color[match(pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)], metaz$Individual)])
+ibs.hc.cut <- snpgdsCutTree(ibs.hc, samp.group=as.factor(metaz$Color[match(pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)], metaz$Individual)][missingRate < 0.5]))
+race <- as.factor(metaz$Color[match(pcaz$sample.id[match(metazRed$Individual, pcaz$sample.id)], metaz$Individual)][missingRate < 0.5])
 
 
 png(args[2], width=1000, height=500, units=px)
